@@ -124,8 +124,7 @@ pytest
 3. Check it against look-ahead with `tests/test_features.py`: the test builds
    features on 700 seconds and on the first 500, and requires the first 500
    rows to be identical.
-4. Evaluate it with `session_ic`, or pass `feature_columns` to the evaluation
-   and backtest functions.
+4. Evaluate it with session_ic, or pass feature_columns to load_dataset, evaluate_model and backtest_results.
 
 ## Tests
 

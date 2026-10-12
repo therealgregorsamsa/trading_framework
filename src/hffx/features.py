@@ -2,15 +2,15 @@
 from pathlib import Path
 import numpy as np
 import pandas as pd
+from hffx.config import FEATURES_PATH
 
-FEATURES_PATH = Path("data/features/features_3bp.parquet")
 BARS_PATH = Path("data/bars/bars.parquet")
 
 FILLED_FROM_CLOSE = ["open", "high", "low", "mean"]
 RETURN_HORIZONS = [1, 10, 60, 300]  # in seconds
 FEATURE_WINDOW = 300  # 5 minutes
 LABEL_HORIZON = 60          # seconds ahead
-LABEL_THRESHOLD_BPS = 3.0   # about the average spread
+LABEL_THRESHOLD_BPS = 3.0   # about twice the average spread
 
 
 
@@ -94,7 +94,6 @@ def add_volatility(df: pd.DataFrame) -> pd.DataFrame:
     )
     return df
 
-FEATURE_WINDOW = 300  # 5 minutes
 
 
 def add_rolling_features(df: pd.DataFrame) -> pd.DataFrame:
@@ -163,7 +162,6 @@ if __name__ == "__main__":
     df = add_rolling_features(df)
     df = add_labels(df)
 
-    new_cols = ["volatility_300s", "zscore_300s", "activity_60s", "spread_bps", "hour"]
     print(df.groupby("symbol")["label"].value_counts(dropna=False, normalize=True))
     print(df.groupby("symbol")["label"].apply(lambda s: s.isna().sum()))
     FEATURES_PATH.parent.mkdir(parents=True, exist_ok=True)

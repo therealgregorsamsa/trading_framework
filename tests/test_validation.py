@@ -1,6 +1,5 @@
 from hffx.validation import iter_rounds, walk_forward_splits, split_round, make_xy
 import pandas as pd
-from typing import Iterator, NamedTuple
 
 def test_walk_forward_splits_expected_rounds():
     sessions = [10, 11, 12, 13, 14]

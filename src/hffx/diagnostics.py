@@ -57,11 +57,3 @@ def session_ic(
         "share_positive_sessions": (per_session > 0).mean(),
     }).round(4).sort_values("mean_ic", key=abs, ascending=False)
 
-
-def edge_by_volatility(results: pd.DataFrame) -> pd.DataFrame:
-    """Average gross PnL, cost and net PnL (bps per trade) by volatility tercile."""
-    trades = results[results["position"] != 0]
-    bucket = pd.qcut(trades["volatility_300s"], 3, labels=["low", "mid", "high"])
-    summary = trades.groupby(bucket, observed=True)[["gross_bps", "cost_bps", "net_bps"]].mean()
-    summary["n_trades"] = trades.groupby(bucket, observed=True).size()
-    return summary.round(2)

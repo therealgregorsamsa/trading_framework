@@ -1,11 +1,10 @@
 """Build 1-second bars from the clean layer and save them as Parquet."""
 
 from pathlib import Path
-
+from hffx.config import BARS_PATH
 import duckdb
 
 BARS_SQL = Path(__file__).parent / "sql" / "bars.sql"
-BARS_PATH = Path("data/bars/bars.parquet")
 
 
 def build_bars(sql_path: Path = BARS_SQL, out_path: Path = BARS_PATH) -> None:

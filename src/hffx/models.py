@@ -5,8 +5,8 @@ from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline, make_pipeline
 
 from hffx.validation import iter_rounds
 
@@ -16,7 +16,7 @@ def baseline_model() -> DummyClassifier:
     return DummyClassifier(strategy="most_frequent")
 
 
-def logistic_model() -> object:
+def logistic_model() -> Pipeline:
     """Standardised logistic regression."""
     return make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
 

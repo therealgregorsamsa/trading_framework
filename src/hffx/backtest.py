@@ -57,6 +57,13 @@ def backtest_results(
         results.append(backtest_round(r.test, positions))
     return pd.concat(results, ignore_index=True)
 
+def edge_by_volatility(results: pd.DataFrame) -> pd.DataFrame:
+    """Average gross PnL, cost and net PnL (bps per trade) by volatility tercile."""
+    trades = results[results["position"] != 0]
+    bucket = pd.qcut(trades["volatility_300s"], 3, labels=["low", "mid", "high"])
+    summary = trades.groupby(bucket, observed=True)[["gross_bps", "cost_bps", "net_bps"]].mean()
+    summary["n_trades"] = trades.groupby(bucket, observed=True).size()
+    return summary.round(2)
 
 def performance_summary(results: pd.DataFrame) -> pd.Series:
     """Per-session Sharpe, maximum drawdown and trade statistics of the net PnL (bps)."""
